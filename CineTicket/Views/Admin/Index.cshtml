@@ -1,0 +1,392 @@
+﻿@model List<CineTicket.Models.Movie>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Admin Panel</title>
+    <style>
+        .navbar {
+            background: linear-gradient(to right, #b11226, #2b2b2b, #000000);
+        }
+
+        .form-control {
+            background-color: rgba(108, 117, 125, 1) !important;
+            border: none;
+            color: white !important;
+            resize: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top py-3">
+        <div class="container">
+            <a asp-controller="Admin" asp-action="Index" class=" navbar-brand fw-bold text-white fs-4">
+                <i class="fa-solid fa-user-shield text-white"></i>
+                CineTicket | Admin
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div id="navbarNav" class="collapse navbar-collapse">
+                <div class="navbar-nav ms-auto">
+                    <h4 class="me-3 fw-bold text-white">Welcome Admin</h4>
+                </div>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-danger">
+                    <i class="fa-solid fa-right-from-bracket me-2"></i>Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="py-5" style="background-color: #1a1a1a; border-bottom: 1px solid #333; height: 100vh;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="list-group mt-3 shadow">
+
+                        <a href="#" class="list-group-item list-group-item-action active" id="film">
+                            <i class="me-3 fa-solid fa-ticket"></i> Film Management
+                        </a>
+
+                        <a href="#" class="list-group-item list-group-item-action" id="comments">
+                            <i class="me-3 fa-regular fa-comments"></i>All Comments
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action" id="users">
+                            @* onclick="showSection('users-section')" *@
+                            <i class="me-3 fa-solid fa-users"></i>All Users
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-9">
+                    <div id="film-section">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h2 class="fw-bold text-white">Movie List</h2>
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                    data-bs-target="#myModal">
+                                +
+                                Add New
+                                Movies
+                            </button>
+                            <div class="modal" id="myModal">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content"
+                                         style="background-color: #1a1a1a; border-bottom: 1px solid #333;">
+
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                            <h4 class="modal-title fw-bold text-white">
+                                                <i class="fa-solid fa-film text-danger"></i> Add New
+                                                Movie
+                                            </h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+
+                                        <!-- Modal body -->
+                                        <div class="modal-body">
+                                            <form asp-controller="Admin" asp-action="Create" enctype="multipart/form-data" method="post" class="row g-3">
+
+                                                <div class="col-12">
+                                                    <label class="form-label text-white">Movie Name</label>
+                                                    <input class="form-control" type="text" name="MovieName">
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <label class="form-label text-white">Vertical Image</label>
+                                                    <input class="form-control" type="file" name="VerticalImageFile">
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="form-label text-white">Horizontal Image</label>
+                                                    <input class="form-control" type="file" name="HorizontalImageFile">
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <label class="form-label text-white">Trailer Link</label>
+                                                    <input class="form-control" type="url" name="TrailerLink">
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="form-label text-white">Imdb Score</label>
+                                                    <input class="form-control" type="url" name="ImdbLink">
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="form-label text-white">Description</label>
+                                                    <textarea id="" rows="6"
+                                                              class="w-100 form-control" name="Description"></textarea>
+                                                </div>
+                                                <!-- GENRE -->
+                                                <div class="d-flex flex-wrap gap-2">
+
+                                                    <input type="checkbox" class="btn-check" id="g1" name="genres"
+                                                           value="Action">
+                                                    <label class="btn btn-outline-danger rounded-pill"
+                                                           for="g1">Action</label>
+
+                                                    <input type="checkbox" class="btn-check" id="g2" name="genres"
+                                                           value="Adventure">
+                                                    <label class="btn btn-outline-danger rounded-pill"
+                                                           for="g2">Adventure</label>
+
+                                                    <input type="checkbox" class="btn-check" id="g3" name="genres"
+                                                           value="Animation">
+                                                    <label class="btn btn-outline-danger rounded-pill"
+                                                           for="g3">Animation</label>
+
+                                                    <input type="checkbox" class="btn-check" id="g4" name="genres"
+                                                           value="Comedy">
+                                                    <label class="btn btn-outline-danger rounded-pill"
+                                                           for="g4">Comedy</label>
+
+                                                    <input type="checkbox" class="btn-check" id="g5" name="genres"
+                                                           value="Crime">
+                                                    <label class="btn btn-outline-danger rounded-pill"
+                                                           for="g5">Crime</label>
+
+                                                    <input type="checkbox" class="btn-check" id="g6" name="genres"
+                                                           value="Drama">
+                                                    <label class="btn btn-outline-danger rounded-pill"
+                                                           for="g6">Drama</label>
+
+                                                    <input type="checkbox" class="btn-check" id="g7" name="genres"
+                                                           value="Fantasy">
+                                                    <label class="btn btn-outline-danger rounded-pill"
+                                                           for="g7">Fantasy</label>
+
+                                                    <input type="checkbox" class="btn-check" id="g8" name="genres"
+                                                           value="Horror">
+                                                    <label class="btn btn-outline-danger rounded-pill"
+                                                           for="g8">Horror</label>
+
+                                                    <input type="checkbox" class="btn-check" id="g9" name="genres"
+                                                           value="Mystery">
+                                                    <label class="btn btn-outline-danger rounded-pill"
+                                                           for="g9">Mystery</label>
+
+                                                    <input type="checkbox" class="btn-check" id="g10" name="genres"
+                                                           value="Romance">
+                                                    <label class="btn btn-outline-danger rounded-pill"
+                                                           for="g10">Romance</label>
+
+                                                    <input type="checkbox" class="btn-check" id="g11" name="genres"
+                                                           value="Sci-Fi">
+                                                    <label class="btn btn-outline-danger rounded-pill"
+                                                           for="g11">Sci-Fi</label>
+
+                                                    <input type="checkbox" class="btn-check" id="g12" name="genres"
+                                                           value="Thriller">
+                                                    <label class="btn btn-outline-danger rounded-pill"
+                                                           for="g12">Thriller</label>
+
+                                                    <input type="checkbox" class="btn-check" id="g13" name="genres"
+                                                           value="War">
+                                                    <label class="btn btn-outline-danger rounded-pill"
+                                                           for="g13">War</label>
+
+                                                    <input type="checkbox" class="btn-check" id="g14" name="genres"
+                                                           value="Western">
+                                                    <label class="btn btn-outline-danger rounded-pill"
+                                                           for="g14">Western</label>
+
+                                                    <input type="checkbox" class="btn-check" id="g15" name="genres"
+                                                           value="Documentary">
+                                                    <label class="btn btn-outline-danger rounded-pill"
+                                                           for="g15">Documentary</label>
+
+                                                </div>
+
+                                                <label for="duration" class="form-label text-white mb-0">Time</label>
+                                                <input type="number" class="form-control" name="Duration" id="time">
+                                                <small class="text-warning fw-bold" id="time-calculator">0h 0m</small>
+
+                                                <!-- Modal footer -->
+                                                <div class="modal-footer mt-3">
+                                                    <button type="button" class="btn btn-danger"
+                                                            data-bs-dismiss="modal">
+                                                        Close
+                                                    </button>
+                                                    <button type="submit" class="btn btn-success">
+                                                        Save
+                                                        Movie
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FILM MANAGEMENT -->
+
+                        <table class="table table-dark table-hover align-middle border border-secondary shadow-lg">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Title</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int countMovie = 1;
+                                }
+                                @foreach (var movie in Model)
+                                {
+                                    <tr>
+                                        <td class="text-white">@countMovie</td>
+                                        <td class="text-white">
+                                            @movie.MovieName
+                                        </td>
+
+                                        <td>
+                                            <a asp-action="Delete" asp-route-id="@movie.Id"
+                                               onclick="return confirm('Are you sure you want to delete the movie information? (This action cannot be undone)');"
+                                               class="btn btn-sm btn-outline-danger">
+                                                <i class="fa-solid fa-trash-can"></i> Delete
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    { countMovie++; }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ALL COMMENTS -->
+
+                    <div id="comments-section" class="d-none">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3 class="fw-bold text-white">User Comments</h3>
+
+                            <div style="width: 300px;">
+                                <select class="form-select bg-dark text-white border-secondary" id="movieFilter" onchange="filterComments()">
+                                    <option value="all" selected>Show All Movies</option>
+
+                                    @foreach (var movie in Model)
+                                    {
+                                        <option value="@movie.Id">@movie.MovieName</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="comments-container">
+                            @foreach (var comment in (List<CineTicket.Models.Comment>)ViewBag.Comments)
+                            {
+                                <div class="card bg-dark border-secondary mb-3 comment-card" data-movie-id="@comment.MovieId">
+                                    <div class="card-header border-secondary d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <span class="text-danger fw-bold me-2">@comment.User.FirstName @comment.User.LastName</span>
+
+                                            <span class="badge bg-secondary">
+                                                @if (comment.Movie != null)
+                                                {
+                                                    @comment.Movie.MovieName
+                                                }
+                                                else
+                                                {
+
+                                                    <text>Deleted Movie</text>
+                                                }
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text text-white-50 fst-italic">
+                                            "@comment.Content"
+                                        </p>
+                                        <div class="text-end">
+                                            <a asp-controller="Admin" asp-action="DeleteComment" asp-route-id="@comment.Id"
+                                               class="btn btn-sm btn-outline-danger"
+                                               onclick="return confirm('Are you sure you want to delete this comment?');">
+                                                <i class="fa-solid fa-trash"></i> Delete Comment
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            @if (((List<CineTicket.Models.Comment>)ViewBag.Comments).Count == 0)
+                            {
+                                <div class="alert alert-dark text-warning text-center">No comments found yet.</div>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- ALL USERS -->
+                    <div id="users-section" class="d-none">
+                        <h3 class="fw-bold text-white mb-4">Registered Users</h3>
+
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover border border-secondary">
+                                <thead>
+                                    <tr class="text-secondary">
+                                        <th>ID</th>
+                                        <th>Full Name</th>
+                                        <th>Email</th>
+                                        <th>Password</th>
+                                        <th>Role</th>
+                                        <th class="text-end">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int count = 1;
+                                    }
+                                    @foreach (var user in (List<CineTicket.Models.User>)ViewBag.Users)
+                                    {
+                                        <tr class="align-middle">
+                                            <td>@count</td>
+                                            <td class="fw-bold text-white">@user.FirstName @user.LastName</td>
+                                            <td>@user.EmailAddress</td>
+                                            <td>@user.Password</td>
+                                            <td>
+                                                @if (user.Role == "Admin")
+                                                {
+                                                    <span class="badge bg-danger">ADMIN</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-secondary">MEMBER</span>
+                                                }
+                                            </td>
+                                            <td class="text-end">
+                                                <a asp-action="DeleteUser" asp-route-id="@user.Id"
+                                                   class="btn btn-sm btn-outline-danger"
+                                                   onclick="return confirm('Are you sure you want to delete this user?');">
+                                                    <i class="fa-solid fa-trash"></i> Delete
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        { count++; }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================= JAVA SCRIPT BAĞLANTISI ============================= -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+            crossorigin="anonymous"></script>
+    <script src="~/js/script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>@ViewData["Title"] - CineTicket</title>
+    @RenderSection("Styles", required: false)
+</head>
+
+<body>
+    @{
+        var navClass = ViewData["Title"]?.ToString() == "Home" ? "fixed-top" : "sticky-top bg-dark";
+    }
+    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent @navClass fixed-top py-3">
+        <div class="container">
+            <a asp-controller="Home" asp-action="Index" class=" navbar-brand fw-bold text-white fs-4">
+                <i class="fa-solid fa-film text-danger"></i>
+                CineTicket
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-nav ms-auto">
+                <div id="navbarNav" class="collapse navbar-collapse">
+                    <div class="navbar-nav ms-auto">
+                        <a class="nav-link @(ViewData["Title"]?.ToString() == "Home" ? "active" : "")" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="nav-link @(ViewData["Title"]?.ToString() == "Movies" || ViewData["Title"]?.ToString() == "Details" ? "active" : "")" asp-controller="Home" asp-action="Movies">Movies</a>
+                    </div>
+                    <div class="navbar-nav ms-auto">
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <div class="d-flex align-items-center gap-3">
+                                <a asp-controller="Account" asp-action="Profile" class="text-white text-decoration-none fw-bold">
+                                    <i class="fa-solid fa-user-circle me-1"></i>
+                                    @User.Identity?.Name
+                                </a>
+
+                                <a asp-controller="Account" asp-action="Logout" class="btn btn-outline-danger rounded-1">
+                                    Logout <i class="fa-solid fa-right-from-bracket ms-1"></i>
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <a asp-controller="Account" asp-action="Login" class="btn btn-outline-light me-2 rounded-1">Login</a>
+                            <a asp-controller="Account" asp-action="Register" class="btn btn-danger rounded-1">Register</a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+
+            @* <div id="navbarNav" class="collapse navbar-collapse">
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-link @(ViewData["Title"]?.ToString() == "Home" ? "active" : "")" asp-controller="Home" asp-action="Index">Home</a>
+                    <a class="nav-link @(ViewData["Title"]?.ToString() == "Movies" || ViewData["Title"]?.ToString() == "Details" ? "active" : "")" asp-controller="Home" asp-action="Movies">Movies</a>
+                </div>
+                <a asp-controller="Account" asp-action="Login" class="btn btn-outline-light m-2">Login</a>
+                <a asp-controller="Account" asp-action="Register" class="btn btn-danger">Register</a>
+            </div> *@
+        </div>
+    </nav>
+
+    @RenderBody()
+
+    <footer class="bg-dark text-white pt-5 pb-4">
+        <div class="container text-center text-md-start">
+            <div class="row">
+
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <h5 class="text-uppercase mb-4 fw-bold text-danger">
+                        <i class="fa-solid fa-film"></i> CineTicket
+                    </h5>
+                    <p>
+                        The best cinema experience in the city.
+                        Watch the latest movies with premium comfort and sound quality.
+                    </p>
+                </div>
+
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                    <h5 class="text-uppercase mb-4 fw-bold text-warning">Menu</h5>
+                    <p><a asp-controller="Home" asp-action="Index" class="text-white text-decoration-none">Home</a></p>
+                    <p><a asp-controller="Home" asp-action="Movies" class="text-white text-decoration-none">Movies</a></p>
+                </div>
+
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <h5 class="text-uppercase mb-4 fw-bold text-warning">Contact</h5>
+                    <p><i class="fas fa-home me-3"></i> Istanbul, Turkey</p>
+                    <p><i class="fa-solid fa-at me-3"></i> info@cineticket.com</p>
+                    <p><i class="fas fa-phone me-3"></i> +90 555 123 45 67</p>
+                </div>
+            </div>
+
+            <hr class="mb-4">
+
+            <div class="row align-items-center">
+                <div class="col-md-7 col-lg-8">
+                    <p>© 2026 <strong>CineTicket</strong>. All Rights Reserved.</p>
+                </div>
+                <div class="col-md-5 col-lg-4">
+                    <div class="text-center text-md-end">
+                        <ul class="list-unstyled list-inline">
+                            <li class="list-inline-item">
+                                <a href="https://www.instagram.com/uzeyirgunakin02/"
+                                   class="btn-floating btn-sm text-white" style="font-size: 23px;">
+                                    <i class="fa-brands fa-instagram"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://www.linkedin.com/in/%C3%BCzeyir-g%C3%BCnakin-6a61672a5/"
+                                   class="btn-floating btn-sm text-white" style="font-size: 23px;">
+                                    <i class="fa-brands fa-linkedin"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://github.com/02-fraw" class="btn-floating btn-sm text-white"
+                                   style="font-size: 23px;">
+                                    <i class="fa-brands fa-github"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================= JAVA SCRIPT BAĞLANTISI ============================= -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+            crossorigin="anonymous"></script>
+    <script src="~/js/script.js"></script>
+</body>
+
+
+</html>

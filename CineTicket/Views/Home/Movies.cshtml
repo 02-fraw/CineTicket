@@ -1,0 +1,44 @@
+﻿@model List<CineTicket.Models.Movie>
+@{
+    ViewData["Title"] = "Movies";
+}
+@section Styles {
+    <style>
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.85) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+}
+<section class="bg-dark">
+    <div class="container">
+        <h3 class="text-uppercase fw-bold text-white pt-2">
+            <i class="fa-solid fa-clapperboard text-danger"></i>
+            in cinemas
+        </h3>
+        <hr class="border-white">
+
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3">
+            @foreach (var movie in Model)
+            {
+                <div class="col">
+                    <div class="card bg-transparent border-0">
+                        <div class="card-img-wrapper">
+                            <img src="@movie.VerticalImageUrl" class="card-img-top" alt="@movie.MovieName">
+                            <div class="overlay">
+                                <a asp-controller="Home" asp-action="Details" asp-route-id="@movie.Id"
+                                   class="btn btn-danger rounded-pill fw-bold text-white">
+                                    Get
+                                    Ticket<i class="ms-1 fa-solid fa-ticket"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="fw-bold text-white mt-1 mb-2">@movie.MovieName</p>
+                </div>
+            }
+        </div>
+        <hr class="text-white fw-bold py-2 m-0">
+    </div>
+</section>
